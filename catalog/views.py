@@ -1,8 +1,15 @@
 from django.shortcuts import render
 
+from catalog.models import Product
 
 def index(request):
-    return render(request, 'catalog/index.html')
+    context = {
+        'title': 'Главная',
+        'products': Product.objects.all()[:5]
+
+    }
+    print(context['products'])
+    return render(request, 'catalog/index.html', context=context)
 
 
 def contact(request):
