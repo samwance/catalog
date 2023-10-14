@@ -20,7 +20,11 @@ def contact(request):
         print(f'You have new message from {name}({email}): {message}')
     return render(request, 'catalog/contact.html')
 
-def product(request, pk):
+def get_product(request, pk):
     product = Product.objects.get(pk=pk)
-    context = {'product': product}
-    return render(request, 'product_detail.html', context)
+    context = {
+        'title': product.name,
+        'product': product
+    }
+    print(context['product'])
+    return render(request, f'catalog/product.html', context=context)
