@@ -3,22 +3,22 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        {% for product in products %}
+        {% for object in object_list %}
         {% if forloop.counter0|divisibleby:4 %}
         </div><div class="row">
         {% endif %}
         <div class="col-md-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">{{product.product_name}}</h4>
+                    <h4 class="my-0 font-weight-normal">{{object.product_name}}</h4>
                 </div>
                 <div class="card-body">
-                    <h1 class="card-title pricing-card-title">{{product.purchase_price}}</h1>
+                    <h1 class="card-title pricing-card-title">{{object.purchase_price}}</h1>
                     <img src="{{ product.image | media_url }}" alt="" style="max-width: 75%;">
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li>{{product.description|truncatechars:100}}</li>
+                        <li>{{object.description|truncatechars:100}}</li>
                     </ul>
-                    <a class="btn btn-lg btn-block btn-outline-primary" href="/products/{{ product.pk }}">Открыть описание</a>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="/products/{{ object.pk }}">Выбрать</a>
                 </div>
             </div>
         </div>

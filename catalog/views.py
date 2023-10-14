@@ -1,15 +1,18 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView, DetailView
 
 from catalog.models import Product
 
-def index(request):
-    context = {
-        'title': 'Главная',
-        'products': Product.objects.all()[:5]
-
+class IndexView(TemplateView):
+    template_name = 'catalog/index.html'
+    extra_context = {
+        'title': 'Главная страница'
     }
-    print(context['products'])
-    return render(request, 'catalog/index.html', context=context)
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['object_list'] = Product.objects.all()[:5]
+        return context_data
 
 
 def contact(request):
@@ -20,11 +23,16 @@ def contact(request):
         print(f'You have new message from {name}({email}): {message}')
     return render(request, 'catalog/contact.html')
 
-def get_product(request, pk):
-    product = Product.objects.get(pk=pk)
-    context = {
-        'title': product.name,
-        'product': product
-    }
-    print(context['product'])
-    return render(request, f'catalog/product.html', context=context)
+class ProductView(DetailView):
+    model = Product
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(pk=self.kwargs.get('pk'))
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        product_item = Product.objects.get(pk=self.kwargs.get('pk'))
+        context_data['title'] = product_item.product_name
+        return context_data
