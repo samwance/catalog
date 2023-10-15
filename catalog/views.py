@@ -27,8 +27,9 @@ def contact(request):
     return render(request, 'catalog/contact.html')
 
 
-class ProductView(DetailView):
+class ProductDetailView(DetailView):
     model = Product
+    template_name = 'catalog/product.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -38,7 +39,7 @@ class ProductView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(**kwargs)
         product_item = Product.objects.get(pk=self.kwargs.get('pk'))
-        context_data['title'] = product_item.product_name
+        context_data['title'] = product_item.name
         return context_data
 
 
@@ -50,6 +51,7 @@ class ProductCreateView(CreateView):
 
 class ProductListView(ListView):
     model = Product
+    template_name = 'catalog/product_list.html'
     extra_context = {
         'title': 'Список товаров'
     }
@@ -63,6 +65,7 @@ class ProductUpdateView(UpdateView):
 
 class ProductDeleteView(DeleteView):
     model = Product
+    template_name = 'catalog/product_delete.html'
     success_url = reverse_lazy('catalog:product_list')
 
 
@@ -74,6 +77,7 @@ class VersionCreateView(CreateView):
 
 class VersionDetailView(DetailView):
     model = Version
+    template_name = 'catalog/version.html'
 
 
 class VersionUpdateView(UpdateView):
@@ -84,4 +88,5 @@ class VersionUpdateView(UpdateView):
 
 class VersionDeleteView(DeleteView):
     model = Version
+    template_name = 'catalog/version_delete.html'
     success_url = reverse_lazy('catalog:product_list')

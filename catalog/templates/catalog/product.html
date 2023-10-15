@@ -10,27 +10,26 @@
         </div>
 
         <div class="card-body">
-            <h1 class="card-title pricing-card-title ">{{object.purchase_price}}</h1>
+            <h1 class="card-title pricing-card-title ">{{product.purchase_price}}</h1>
             <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                <li>Описание: {{object.description}}</li>
+                <li>Описание: {{product.description}}</li>
 
             </ul>
             <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                <li>Категория: {{object.category}}</li>
+                <li>Категория: {{product.category}}</li>
 
             </ul>
 
             <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                <li> {{object.updated_at}}</li>
+                <li> {{product.updated_at}}</li>
 
             </ul>
+            {% if version %}
             <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                <li>{% if version %}
-                    Активная версия: {{version}}
-                    {% endif %}
-                </li>
+                <li>Активная версия: {{version}}</li>
 
             </ul>
+            {% endif %}
             <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                 <li>
                     <a class="btn btn-lg btn-block btn-outline-primary"
