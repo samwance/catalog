@@ -9,7 +9,7 @@ from django.views.generic import CreateView, TemplateView, UpdateView, FormView
 
 from config import settings
 from users.forms import UserRegisterForm, UserForm, PasswordRecoveryForm
-from users.models import User
+from users.models import User, EmailVerification
 
 
 class LoginView(BaseLoginView):
@@ -50,11 +50,16 @@ class VerificationView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        user = User.objects.get(pk=self.kwargs.get('pk'))
-        if user:
+        code = self.kwargs.get('code')
+        email = self.kwargs.get('email')
+        user = User.objects.get(email=email)
+        email_verifications = EmailVerification.objects.filter(user=user, code=code)
+        if email_verifications.exists() and not email_verifications.first().is_expired():
             user.is_active = True
             user.save()
-        return self.render_to_response(context)
+            return self.render_to_response(context)
+        else:
+            return redirect('/')
 
 
 def expectation(request):

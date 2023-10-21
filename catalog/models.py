@@ -1,8 +1,10 @@
 from django.db import models
+from users.models import User
 
 # Create your models here.
 
 NULLABLE = {'blank': True, 'null': True}
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -11,6 +13,7 @@ class Category(models.Model):
 
     def __str__(self):
         return f'{self.name} {self.description}'
+
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -21,12 +24,15 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE)
+
     def __str__(self):
         return f'{self.name} {self.description}'
 
     class Meta:
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
+
 
 class Version(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
