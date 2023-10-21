@@ -4,6 +4,7 @@ from django.views.generic import TemplateView, DetailView, CreateView, ListView,
 
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Version
+from catalog.services import get_categories_from_cache
 
 
 class IndexView(TemplateView):
@@ -90,3 +91,10 @@ class VersionDeleteView(DeleteView):
     model = Version
     template_name = 'catalog/version_delete.html'
     success_url = reverse_lazy('catalog:product_list')
+
+def categories(request):
+    context = {
+        'object_list': get_categories_from_cache(),
+        'title': 'Категории'
+    }
+    return render(request, 'catalog/categories.html', context)
