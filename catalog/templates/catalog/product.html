@@ -6,24 +6,51 @@
     <div class="card mb-4 box-shadow">
         <div class="card-header">
             <h4 class="my-0  mb-4 font-weight-normal">{{object.name}}</h4>
-        <img src="{% mediafile product.image %}" alt="" style="max-width: 50%;">
+            <img src="{% mediafile product.image %}" alt="" style="max-width: 50%;">
         </div>
 
         <div class="card-body">
-            <h1 class="card-title pricing-card-title ">{{object.purchase_price}}</h1>
+            <h1 class="card-title pricing-card-title ">{{product.purchase_price}}</h1>
             <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                <li>Описание: {{object.description}}</li>
+                <li>Описание: {{product.description}}</li>
 
             </ul>
             <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                <li>Категория: {{object.category}}</li>
+                <li>Категория: {{product.category}}</li>
 
             </ul>
+
             <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                <li> {{object.updated_at}}</li>
+                <li> {{product.updated_at}}</li>
 
             </ul>
+            {% if version %}
+            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                <li>Активная версия: {{version}}</li>
+
+            </ul>
+            {% endif %}
+            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                <li>
+                    <a class="btn btn-lg btn-block btn-outline-primary"
+                       href="{% url 'catalog:version_create' object.pk %}"
+                       role="button">Добавить версию</a>
+
+                    {% if version %}
+                    <a class="btn btn-lg btn-block btn-outline-primary"
+                       href="{% url 'catalog:version_update' version.pk %}"
+                       role="button">Обновить активную версию</a>
+                    <a class="btn btn-lg btn-block btn-outline-primary"
+                       href="{% url 'catalog:version_delete' version.pk %}"
+                       role="button">Удалить активную версию</a>
+                    {% endif %}
+                </li>
+
+            </ul>
+
             <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+
+
         </div>
     </div>
 </div>
